@@ -21,7 +21,7 @@ const Login = () => {
     try {
       let response = await authenticate(AUTH_LOGIN_URL, dispatch, formValues);
       if (!response.sessionId) return;
-      // history.push('/home');
+      history.push("/home");
     } catch (error) {
       console.log(error);
     }

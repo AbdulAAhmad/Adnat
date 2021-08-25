@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import { authenticate, AUTH_SIGNUP_URL } from "../../context/auth/auth.actions";
 import { useAuthDispatch, useAuthState } from "../../context/auth/auth.context";
 import "./signup.css";
@@ -13,6 +14,7 @@ const Signup = () => {
 
   const dispatch = useAuthDispatch();
   const { loading, errorMessage } = useAuthState();
+  const history = useHistory();
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -20,7 +22,7 @@ const Signup = () => {
     try {
       let response = await authenticate(AUTH_SIGNUP_URL, dispatch, formValues);
       if (!response.sessionId) return;
-      // history.push('/home');
+      history.push("/home");
     } catch (error) {
       console.log(error);
     }
@@ -74,6 +76,7 @@ const Signup = () => {
         />
         <button type="submit">Sign up</button>
       </form>
+      <Link to="/login">Log in</Link>
     </div>
   );
 };
