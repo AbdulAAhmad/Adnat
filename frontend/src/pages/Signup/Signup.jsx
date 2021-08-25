@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { authenticate, AUTH_SIGNUP_URL } from "../../context/auth/auth.actions";
+import { useAuthDispatch, useAuthState } from "../../context/auth/auth.context";
 import "./signup.css";
 
 const Signup = () => {
@@ -9,15 +11,25 @@ const Signup = () => {
     passwordConfirmation: "",
   });
 
+  const dispatch = useAuthDispatch();
+  const { loading, errorMessage } = useAuthState();
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+
+    try {
+      let response = await authenticate(AUTH_SIGNUP_URL, dispatch, formValues);
+      if (!response.sessionId) return;
+      // history.push('/home');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="signup-page">
       <h1>Sign up</h1>
-      <form
-        action=""
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
+      <form action="" onSubmit={handleSignup}>
         <label htmlFor="name">Name</label>
         <input
           id="name"

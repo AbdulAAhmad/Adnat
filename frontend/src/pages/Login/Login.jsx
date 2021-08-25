@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { Link, Redirect, useHistory } from "react-router-dom";
+import { authenticate, AUTH_LOGIN_URL } from "../../context/auth/auth.actions";
+import { useAuthDispatch, useAuthState } from "../../context/auth/auth.context";
 import "./login.css";
 
 const Login = () => {
@@ -7,16 +10,27 @@ const Login = () => {
     password: "",
   });
 
+  const history = useHistory();
+
+  const dispatch = useAuthDispatch();
+  const { loading, errorMessage } = useAuthState();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      let response = await authenticate(AUTH_LOGIN_URL, dispatch, formValues);
+      if (!response.sessionId) return;
+      // history.push('/home');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="login-page">
       <h1>Log in</h1>
-      <form
-        action=""
-        onSubmit={(e) => {
-          e.preventDefault();
-          console.log(formValues);
-        }}
-      >
+      <form action="" onSubmit={handleLogin}>
         <label htmlFor="email">Email</label>
         <input
           id="email"
@@ -38,6 +52,7 @@ const Login = () => {
         />
         <button type="submit">Log in</button>
       </form>
+      <Link to="/signup">Sign up</Link>
     </div>
   );
 };
