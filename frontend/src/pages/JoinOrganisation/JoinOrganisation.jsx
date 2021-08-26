@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useAuthState } from "../../context/auth/auth.context";
+import { getOrganisations } from "../../context/organisations/organisations.actions";
+import {
+  useOrganisationsDispatch,
+  useOrganisationsState,
+} from "../../context/organisations/organisations.context";
 import { createJoinOrganisation } from "../../context/user/user.actions";
 import { useUserDispatch } from "../../context/user/user.context";
 import "./join-organisation.css";
@@ -8,12 +13,27 @@ import "./join-organisation.css";
 const JoinOrganisation = () => {
   const { sessionId } = useAuthState();
   const userDispatch = useUserDispatch();
+  const organisationsDispatch = useOrganisationsDispatch();
+  const { organisations } = useOrganisationsState();
   const history = useHistory();
 
   const [formValues, setFormValues] = useState({
     name: "",
     hourlyRate: "",
   });
+
+  useEffect(() => {
+    const fetchOrganisations = async () => {
+      try {
+        let response = await getOrganisations(organisationsDispatch, sessionId);
+        if (!response) return;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchOrganisations();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,6 +57,15 @@ const JoinOrganisation = () => {
       <p>Join an existing one or create a new one.</p>
 
       <h2>Organisations</h2>
+      {organisations.length < 1 ? (
+        <div>No organisations exist</div>
+      ) : (
+        organisations.map((org) => (
+          <div key={org.id} className="organisation-card">
+            {org.name}
+          </div>
+        ))
+      )}
 
       <h2>Create organisation</h2>
       <form action="" onSubmit={handleSubmit}>

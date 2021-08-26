@@ -1,0 +1,4 @@
+export const OrganisationsActionTypes = {
+  GET_ORGANISATIONS: "GET_ORGANISATIONS",
+  CLEAR_ORGANISATIONS: "CLEAR_ORGANISATIONS",
+};

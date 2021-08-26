@@ -5,16 +5,21 @@ import { useAuthDispatch, useAuthState } from "../../context/auth/auth.context";
 import { useUserState, useUserDispatch } from "../../context/user/user.context";
 import { logout } from "../../context/auth/auth.actions";
 import { clearUser } from "../../context/user/user.actions";
+import { clearOrganisations } from "../../context/organisations/organisations.actions";
+import { useOrganisationsDispatch } from "../../context/organisations/organisations.context";
 
 const Header = () => {
   const { sessionId } = useAuthState();
   const authDispatch = useAuthDispatch();
   const userDispatch = useUserDispatch();
+  const organisationsDispatch = useOrganisationsDispatch();
+
   const { name } = useUserState();
 
   const handleClick = () => {
     logout(authDispatch);
     clearUser(userDispatch);
+    clearOrganisations(organisationsDispatch);
   };
 
   return (
