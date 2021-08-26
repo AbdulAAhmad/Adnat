@@ -61,6 +61,13 @@ export const UserReducer = (state, action) => {
         loading: false,
         errorMessage: null,
       };
+    case UserActionTypes.LEAVE_ORGANISATION:
+      return {
+        ...state,
+        organisationId: null,
+        loading: false,
+        errorMessage: null,
+      };
 
     default:
       throw new Error(`Unhandled action type: ${action.type}`);

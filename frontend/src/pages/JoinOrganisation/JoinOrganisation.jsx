@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
+import OrganisationTile from "../../components/OrganisationTile/OrganisationTile";
 import { useAuthState } from "../../context/auth/auth.context";
 import { getOrganisations } from "../../context/organisations/organisations.actions";
 import {
   useOrganisationsDispatch,
   useOrganisationsState,
 } from "../../context/organisations/organisations.context";
-import { createJoinOrganisation } from "../../context/user/user.actions";
-import { useUserDispatch } from "../../context/user/user.context";
+import {
+  createJoinOrganisation,
+  joinOrganisation,
+} from "../../context/user/user.actions";
+import { useUserDispatch, useUserState } from "../../context/user/user.context";
 import "./join-organisation.css";
 
 const JoinOrganisation = () => {
   const { sessionId } = useAuthState();
+  const { organisationId } = useUserState();
   const userDispatch = useUserDispatch();
   const organisationsDispatch = useOrganisationsDispatch();
   const { organisations } = useOrganisationsState();
@@ -51,21 +56,37 @@ const JoinOrganisation = () => {
     }
   };
 
+  const handleJoinClick = (id) => async () => {
+    try {
+      let response = await joinOrganisation(userDispatch, sessionId, {
+        organisationId: id,
+      });
+      if (!response.id) return;
+      history.push("/home");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="join-organisation-page">
+      {organisationId && <Redirect to="/home" />}
       <p>You aren't a member of any organisations.</p>
       <p>Join an existing one or create a new one.</p>
-
       <h2>Organisations</h2>
-      {organisations.length < 1 ? (
-        <div>No organisations exist</div>
-      ) : (
-        organisations.map((org) => (
-          <div key={org.id} className="organisation-card">
-            {org.name}
-          </div>
-        ))
-      )}
+      <div className="organisations-container">
+        {organisations.length < 1 ? (
+          <div>No organisations exist</div>
+        ) : (
+          organisations.map((org) => (
+            <OrganisationTile
+              key={org.id}
+              name={org.name}
+              onJoinClick={handleJoinClick(org.id)}
+            />
+          ))
+        )}
+      </div>
 
       <h2>Create organisation</h2>
       <form action="" onSubmit={handleSubmit}>

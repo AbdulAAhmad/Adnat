@@ -4,6 +4,8 @@ const USERS_ROOT_URL = `${process.env.REACT_APP_API_URL}/users`;
 const CURRENT_USER_URL = `${USERS_ROOT_URL}/me`;
 const ORGANISATIONS_ROOT_URL = `${process.env.REACT_APP_API_URL}/organisations`;
 const CREATE_JOIN_ORGANISATION_URL = `${ORGANISATIONS_ROOT_URL}/create_join`;
+const JOIN_ORGANISATION_URL = `${ORGANISATIONS_ROOT_URL}/join`;
+const LEAVE_ORGANISATION_URL = `${ORGANISATIONS_ROOT_URL}/leave`;
 
 export async function getUser(dispatch, sessionId) {
   const requestOptions = {
@@ -36,11 +38,11 @@ export const clearUser = (dispatch) => {
   localStorage.removeItem("user");
 };
 
-export async function createJoinOrganisation(dispatch, sessionId, authPayload) {
+export async function createJoinOrganisation(dispatch, sessionId, payLoad) {
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: sessionId },
-    body: JSON.stringify(authPayload),
+    body: JSON.stringify(payLoad),
   };
 
   try {
@@ -70,16 +72,16 @@ export async function createJoinOrganisation(dispatch, sessionId, authPayload) {
   }
 }
 
-export async function joinOrganisation(dispatch, sessionId, authPayload) {
+export async function joinOrganisation(dispatch, sessionId, payLoad) {
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: sessionId },
-    body: JSON.stringify(authPayload),
+    body: JSON.stringify(payLoad),
   };
 
   try {
     dispatch({ type: UserActionTypes.GET_USER_REQUEST });
-    let response = await fetch(CREATE_JOIN_ORGANISATION_URL, requestOptions);
+    let response = await fetch(JOIN_ORGANISATION_URL, requestOptions);
     let data = await response.json();
 
     if (data.id) {
@@ -100,6 +102,33 @@ export async function joinOrganisation(dispatch, sessionId, authPayload) {
     return;
   } catch (error) {
     dispatch({ type: UserActionTypes.GET_USER_ERROR, error: error });
+    console.log(error);
+  }
+}
+
+export async function leaveOrganisation(dispatch, sessionId) {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: sessionId },
+  };
+
+  try {
+    let response = await fetch(LEAVE_ORGANISATION_URL, requestOptions);
+
+    if (response.ok) {
+      dispatch({
+        type: UserActionTypes.LEAVE_ORGANISATION,
+      });
+      const currentUser = JSON.parse(localStorage.getItem("user"));
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ ...currentUser, organisationId: null })
+      );
+      return;
+    }
+    console.log(response);
+    return;
+  } catch (error) {
     console.log(error);
   }
 }

@@ -13,7 +13,6 @@ export async function getOrganisations(dispatch, sessionId) {
     let data = await response.json();
 
     if (data) {
-      console.log(typeof data);
       dispatch({
         type: OrganisationsActionTypes.GET_ORGANISATIONS,
         payload: data,
