@@ -47,6 +47,21 @@ export const UserReducer = (state, action) => {
         errorMessage: null,
       };
 
+    case UserActionTypes.JOIN_ORGANISATION:
+      return {
+        ...state,
+        organisationId: action.payload.id,
+        loading: false,
+        errorMessage: null,
+      };
+    case UserActionTypes.CREATE_JOIN_ORGANISATION:
+      return {
+        ...state,
+        organisationId: action.payload.id,
+        loading: false,
+        errorMessage: null,
+      };
+
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }
