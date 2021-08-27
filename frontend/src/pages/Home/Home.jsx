@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useAuthState } from "../../context/auth/auth.context";
 import { useUserDispatch, useUserState } from "../../context/user/user.context";
 import { getUser, leaveOrganisation } from "../../context/user/user.actions";
@@ -16,6 +16,7 @@ const Home = () => {
   const organisationsDispatch = useOrganisationsDispatch();
   const { organisations } = useOrganisationsState();
   const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     const getUserDetails = async () => {
@@ -35,7 +36,6 @@ const Home = () => {
       try {
         let response = await getOrganisations(organisationsDispatch, sessionId);
         if (!response) return;
-        // if (!response.organisationId) history.push("/organisations/join");
       } catch (error) {
         console.log(error);
       }
@@ -56,7 +56,16 @@ const Home = () => {
             <div key={`${org.id}-tile`} className="my-org-tile">
               <h1>{org.name}</h1>
               <button>View Shifts</button>
-              <button>Edit</button>
+              <button
+                onClick={() =>
+                  history.push({
+                    pathname: `/organisations/${organisationId}`,
+                    state: { from: { pathname: location.pathname } },
+                  })
+                }
+              >
+                Edit
+              </button>
               <button
                 onClick={() => leaveOrganisation(userDispatch, sessionId)}
               >
