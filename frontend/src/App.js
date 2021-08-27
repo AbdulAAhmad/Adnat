@@ -12,6 +12,7 @@ import Signup from "./pages/Signup/Signup";
 import Home from "./pages/Home/Home";
 import JoinOrganisation from "./pages/JoinOrganisation/JoinOrganisation";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import EditOrganisation from "./pages/EditOrganisation/EditOrganisation";
 
 const App = () => {
   return (
@@ -25,8 +26,12 @@ const App = () => {
               <Route path="/signup" component={Signup} />
               <ProtectedRoute path="/home" component={Home} />
               <ProtectedRoute
-                path="/join-organisation"
+                path="/organisations/join"
                 component={JoinOrganisation}
+              />
+              <ProtectedRoute
+                path="/organisations/:id"
+                component={EditOrganisation}
               />
               <Route path="/" component={Login} />
             </Switch>

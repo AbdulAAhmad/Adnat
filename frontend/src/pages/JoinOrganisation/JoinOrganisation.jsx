@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect, useHistory, useLocation } from "react-router-dom";
 import OrganisationTile from "../../components/OrganisationTile/OrganisationTile";
 import { useAuthState } from "../../context/auth/auth.context";
 import { getOrganisations } from "../../context/organisations/organisations.actions";
@@ -21,6 +21,7 @@ const JoinOrganisation = () => {
   const organisationsDispatch = useOrganisationsDispatch();
   const { organisations } = useOrganisationsState();
   const history = useHistory();
+  const location = useLocation();
 
   const [formValues, setFormValues] = useState({
     name: "",
@@ -83,6 +84,12 @@ const JoinOrganisation = () => {
               key={org.id}
               name={org.name}
               onJoinClick={handleJoinClick(org.id)}
+              onEditClick={() =>
+                history.push({
+                  pathname: `/organisations/${org.id}`,
+                  state: { from: { pathname: location.pathname } },
+                })
+              }
             />
           ))
         )}

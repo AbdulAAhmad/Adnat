@@ -22,7 +22,7 @@ const Home = () => {
       try {
         let response = await getUser(userDispatch, sessionId);
         if (!response) return;
-        if (!response.organisationId) history.push("/join-organisation");
+        if (!response.organisationId) history.push("/organisations/join");
       } catch (error) {
         console.log(error);
       }
@@ -35,7 +35,7 @@ const Home = () => {
       try {
         let response = await getOrganisations(organisationsDispatch, sessionId);
         if (!response) return;
-        // if (!response.organisationId) history.push("/join-organisation");
+        // if (!response.organisationId) history.push("/organisations/join");
       } catch (error) {
         console.log(error);
       }
@@ -43,7 +43,7 @@ const Home = () => {
     if (organisationId) {
       fetchOrganisations();
     } else {
-      history.push("/join-organisation");
+      history.push("/organisations/join");
     }
   }, [organisationId]);
 

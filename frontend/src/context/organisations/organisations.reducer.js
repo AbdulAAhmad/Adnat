@@ -24,6 +24,15 @@ export const OrganisationsReducer = (state, action) => {
         ...state,
         organisations: [],
       };
+    case OrganisationsActionTypes.EDIT_ORGANISATION:
+      return {
+        ...state,
+        organisations: [
+          ...state.organisations.slice(0, action.index),
+          action.payload,
+          ...state.organisations.slice(action.index + 1),
+        ],
+      };
 
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
