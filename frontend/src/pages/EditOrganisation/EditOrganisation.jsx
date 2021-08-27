@@ -96,6 +96,9 @@ const EditOrganisation = () => {
           }
         />
         <button type="submit">Update</button>
+        <button onClick={() => history.replace(location.state.from)}>
+          Cancel
+        </button>
       </form>
     </div>
   );
