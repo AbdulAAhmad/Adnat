@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { authenticate, AUTH_LOGIN_URL } from "../../context/auth/auth.actions";
-import { useAuthDispatch, useAuthState } from "../../context/auth/auth.context";
+import { useAuthDispatch } from "../../context/auth/auth.context";
 import "./login.css";
 
 const Login = () => {
@@ -13,7 +13,6 @@ const Login = () => {
   const history = useHistory();
 
   const dispatch = useAuthDispatch();
-  const { loading, errorMessage } = useAuthState();
 
   const handleLogin = async (e) => {
     e.preventDefault();

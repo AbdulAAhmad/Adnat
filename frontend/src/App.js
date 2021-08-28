@@ -13,6 +13,8 @@ import Home from "./pages/Home/Home";
 import JoinOrganisation from "./pages/JoinOrganisation/JoinOrganisation";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import EditOrganisation from "./pages/EditOrganisation/EditOrganisation";
+import { ShiftsProvider } from "./context/shifts/shifts.context";
+import Shifts from "./pages/Shifts/Shifts";
 
 const App = () => {
   return (
@@ -33,6 +35,9 @@ const App = () => {
                 path="/organisations/:id"
                 component={EditOrganisation}
               />
+              <ShiftsProvider>
+                <ProtectedRoute path="/shifts" component={Shifts} />
+              </ShiftsProvider>
               <Route path="/" component={Login} />
             </Switch>
           </BrowserRouter>

@@ -29,6 +29,7 @@ const Home = () => {
       }
     };
     getUserDetails();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -45,6 +46,7 @@ const Home = () => {
     } else {
       history.push("/organisations/join");
     }
+    // eslint-disable-next-line
   }, [organisationId]);
 
   return (
@@ -55,7 +57,9 @@ const Home = () => {
           .map((org) => (
             <div key={`${org.id}-tile`} className="my-org-tile">
               <h1>{org.name}</h1>
-              <button>View Shifts</button>
+              <button onClick={() => history.push("/shifts")}>
+                View Shifts
+              </button>
               <button
                 onClick={() =>
                   history.push({

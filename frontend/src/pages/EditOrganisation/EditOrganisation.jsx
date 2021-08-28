@@ -36,6 +36,7 @@ const EditOrganisation = () => {
 
   useEffect(() => {
     setcurrentOrganisationIndex(getOrgIndex(organisations, id));
+    // eslint-disable-next-line
   }, []);
 
   const handleSubmit = async (e) => {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { authenticate, AUTH_SIGNUP_URL } from "../../context/auth/auth.actions";
-import { useAuthDispatch, useAuthState } from "../../context/auth/auth.context";
+import { useAuthDispatch } from "../../context/auth/auth.context";
 import "./signup.css";
 
 const Signup = () => {
@@ -13,7 +13,6 @@ const Signup = () => {
   });
 
   const dispatch = useAuthDispatch();
-  const { loading, errorMessage } = useAuthState();
   const history = useHistory();
 
   const handleSignup = async (e) => {

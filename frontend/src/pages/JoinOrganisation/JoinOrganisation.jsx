@@ -39,6 +39,7 @@ const JoinOrganisation = () => {
     };
 
     fetchOrganisations();
+    // eslint-disable-next-line
   }, []);
 
   const handleSubmit = async (e) => {
