@@ -38,11 +38,12 @@ const EditShift = () => {
 
   useEffect(() => {
     setCurrentShiftIndex(getShiftIndex(shifts, id));
+    console.log(currentShiftIndex);
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    if (currentShiftIndex) {
+    if (currentShiftIndex !== null) {
       setFormValues({
         date: shifts[currentShiftIndex].start.split(" ")[0],
         start: shifts[currentShiftIndex].start.split(" ")[1],
