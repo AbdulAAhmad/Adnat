@@ -1,30 +1,17 @@
 import React from "react";
 import "./header.css";
 
-import { useAuthDispatch, useAuthState } from "../../context/auth/auth.context";
-import { useUserState, useUserDispatch } from "../../context/user/user.context";
-import { logout } from "../../context/auth/auth.actions";
-import { clearUser } from "../../context/user/user.actions";
-import { clearOrganisations } from "../../context/organisations/organisations.actions";
-import { useOrganisationsDispatch } from "../../context/organisations/organisations.context";
+import { useAuthState } from "../../context/auth/auth.context";
+import { useUserState } from "../../context/user/user.context";
 import { useHistory, useLocation } from "react-router-dom";
+import LogoutButton from "../LogoutButton/LogoutButton";
 
 const Header = () => {
   const { sessionId } = useAuthState();
-  const authDispatch = useAuthDispatch();
-  const userDispatch = useUserDispatch();
-  const organisationsDispatch = useOrganisationsDispatch();
 
   const { name } = useUserState();
   const history = useHistory();
   const location = useLocation();
-
-  const handleClick = () => {
-    logout(authDispatch);
-    clearUser(userDispatch);
-    clearOrganisations(organisationsDispatch);
-    localStorage.clear();
-  };
 
   return (
     <div className="header">
@@ -42,7 +29,7 @@ const Header = () => {
           >
             Edit
           </button>
-          <button onClick={handleClick}>Log Out</button>
+          <LogoutButton />
         </div>
       )}
     </div>

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 import { AuthProvider } from "./context/auth/auth.context";
 import { UserProvider } from "./context/user/user.context";
@@ -23,28 +23,31 @@ const App = () => {
     <AuthProvider>
       <UserProvider>
         <OrganisationsProvider>
-          <BrowserRouter>
-            <Header />
-            <Switch>
-              <Route path="/login" component={Login} />
-              <Route path="/signup" component={Signup} />
-              <ProtectedRoute path="/home" component={Home} />
-              <ProtectedRoute
-                path="/organisations/join"
-                component={JoinOrganisation}
-              />
-              <ProtectedRoute
-                path="/organisations/:id"
-                component={EditOrganisation}
-              />
-              <ProtectedRoute path="/user/edit" component={EditUser} />
-              <ShiftsProvider>
+          <ShiftsProvider>
+            <BrowserRouter>
+              <Header />
+              <Switch>
+                <Route path="/login" component={Login} />
+                <Route path="/signup" component={Signup} />
+                <ProtectedRoute path="/home" component={Home} />
+                <ProtectedRoute
+                  path="/organisations/join"
+                  component={JoinOrganisation}
+                />
+                <ProtectedRoute
+                  path="/organisations/:id"
+                  component={EditOrganisation}
+                />
+                <ProtectedRoute path="/user/edit" component={EditUser} />
                 <ProtectedRoute exact path="/shifts" component={Shifts} />
                 <ProtectedRoute path="/shifts/:id" component={EditShift} />
-              </ShiftsProvider>
-              <Route path="/" component={Login} />
-            </Switch>
-          </BrowserRouter>
+                <Route exact path="/" component={Login} />
+                <Route path="/*">
+                  <Redirect to="/home" />
+                </Route>
+              </Switch>
+            </BrowserRouter>
+          </ShiftsProvider>
         </OrganisationsProvider>
       </UserProvider>
     </AuthProvider>

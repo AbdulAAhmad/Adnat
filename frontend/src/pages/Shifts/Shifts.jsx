@@ -4,7 +4,6 @@ import { useAuthState } from "../../context/auth/auth.context";
 import { useOrganisationsState } from "../../context/organisations/organisations.context";
 import {
   addShift,
-  clearShifts,
   getOrganisationUsers,
   getShifts,
 } from "../../context/shifts/shifts.actions";
@@ -214,7 +213,6 @@ const Shifts = () => {
       <button
         onClick={() => {
           history.replace("/home");
-          clearShifts(shiftsDispatch);
         }}
       >
         Done
