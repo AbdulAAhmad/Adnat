@@ -7,7 +7,6 @@ import {
   useShiftsState,
 } from "../../context/shifts/shifts.context";
 import { useUserState } from "../../context/user/user.context";
-import "./edit-shift.css";
 
 const getShiftIndex = (shift_array, search_id) => {
   for (let i = 0; i < shift_array.length; i++) {

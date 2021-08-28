@@ -6,7 +6,6 @@ import {
   useOrganisationsDispatch,
   useOrganisationsState,
 } from "../../context/organisations/organisations.context";
-import "./edit-organisation.css";
 
 const getOrgIndex = (org_array, search_id) => {
   for (let i = 0; i < org_array.length; i++) {

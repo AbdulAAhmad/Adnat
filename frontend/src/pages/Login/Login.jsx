@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { authenticate, AUTH_LOGIN_URL } from "../../context/auth/auth.actions";
 import { useAuthDispatch } from "../../context/auth/auth.context";
-import "./login.css";
 
 const Login = () => {
   const [formValues, setFormValues] = useState({
