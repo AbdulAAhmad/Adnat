@@ -17,7 +17,6 @@ frontend/build
 frontend/.DS_Store
 frontend/.env.local
 frontend/.env.development.local
-frontend/.env.development
 frontend/.env.test.local
 frontend/.env.production.local
 frontend/.env.production
