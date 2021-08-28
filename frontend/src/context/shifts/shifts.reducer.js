@@ -29,10 +29,33 @@ export const ShiftsReducer = (state, action) => {
         ...state,
         shifts: [...state.shifts, action.payload],
       };
+    case ShiftsActionTypes.EDIT_SHIFT:
+      return {
+        ...state,
+        shifts: [
+          ...state.shifts.slice(0, action.index),
+          action.payload,
+          ...state.shifts.slice(action.index + 1),
+        ],
+      };
+    case ShiftsActionTypes.REMOVE_SHIFT:
+      return {
+        ...state,
+        shifts: [
+          ...state.shifts.slice(0, action.index),
+          ...state.shifts.slice(action.index + 1),
+        ],
+      };
     case ShiftsActionTypes.FETCH_ERROR:
       return {
         ...state,
         errorMessage: action.error,
+      };
+    case ShiftsActionTypes.CLEAR_SHIFTS:
+      return {
+        organisation_users: [],
+        shifts: [],
+        errorMessage: null,
       };
 
     default:

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useAuthState } from "../../context/auth/auth.context";
 import { useOrganisationsState } from "../../context/organisations/organisations.context";
 import {
   addShift,
+  clearShifts,
   getOrganisationUsers,
   getShifts,
 } from "../../context/shifts/shifts.actions";
@@ -30,6 +31,7 @@ const Shifts = () => {
 
   const [filteredEmployeeId, setFilteredEmployeeId] = useState("");
   const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchOrganisationUsers = async () => {
@@ -95,6 +97,7 @@ const Shifts = () => {
             <th>Break length (minutes)</th>
             <th>Hours worked</th>
             <th>Shift cost</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -137,6 +140,18 @@ const Shifts = () => {
                         (org) => Number(org.id) === Number(organisationId)
                       ).hourlyRate
                     ).toFixed(2)}
+                  </td>
+                  <td>
+                    <button
+                      onClick={() =>
+                        history.push({
+                          pathname: `/shifts/${shift.id}`,
+                          state: { from: { pathname: location.pathname } },
+                        })
+                      }
+                    >
+                      Edit
+                    </button>
                   </td>
                 </tr>
               ))
@@ -196,7 +211,14 @@ const Shifts = () => {
           </tr>
         </tfoot>
       </table>
-      <button onClick={() => history.replace("/home")}>Done</button>
+      <button
+        onClick={() => {
+          history.replace("/home");
+          clearShifts(shiftsDispatch);
+        }}
+      >
+        Done
+      </button>
     </div>
   );
 };

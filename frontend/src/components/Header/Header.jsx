@@ -20,7 +20,7 @@ const Header = () => {
     logout(authDispatch);
     clearUser(userDispatch);
     clearOrganisations(organisationsDispatch);
-    //TODO Clear shifts
+    localStorage.clear();
   };
 
   return (
