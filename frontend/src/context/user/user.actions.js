@@ -2,6 +2,7 @@ import { UserActionTypes } from "./user.types";
 
 const USERS_ROOT_URL = `${process.env.REACT_APP_API_URL}/users`;
 const CURRENT_USER_URL = `${USERS_ROOT_URL}/me`;
+const CHANGE_PASSWORD_URL = `${CURRENT_USER_URL}/change_password`;
 const ORGANISATIONS_ROOT_URL = `${process.env.REACT_APP_API_URL}/organisations`;
 const CREATE_JOIN_ORGANISATION_URL = `${ORGANISATIONS_ROOT_URL}/create_join`;
 const JOIN_ORGANISATION_URL = `${ORGANISATIONS_ROOT_URL}/join`;
@@ -127,6 +128,52 @@ export async function leaveOrganisation(dispatch, sessionId) {
       return;
     }
     console.log(response);
+    return;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function editUser(dispatch, sessionId, payload) {
+  const requestOptions = {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", Authorization: sessionId },
+    body: JSON.stringify(payload),
+  };
+
+  try {
+    let response = await fetch(CURRENT_USER_URL, requestOptions);
+    let data = await response.json();
+
+    if (data) {
+      dispatch({
+        type: UserActionTypes.EDIT_USER,
+        payload: data,
+      });
+      const currentUser = JSON.parse(localStorage.getItem("user"));
+      localStorage.setItem("user", JSON.stringify({ ...currentUser, ...data }));
+      return data;
+    }
+    console.log(data.error);
+    return;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function changePassword(dispatch, sessionId, payload) {
+  const requestOptions = {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", Authorization: sessionId },
+    body: JSON.stringify(payload),
+  };
+
+  try {
+    let response = await fetch(CHANGE_PASSWORD_URL, requestOptions);
+
+    if (response.ok) {
+      return response;
+    }
+    console.log(response.error);
     return;
   } catch (error) {
     console.log(error);

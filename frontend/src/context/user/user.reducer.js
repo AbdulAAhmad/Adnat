@@ -68,6 +68,16 @@ export const UserReducer = (state, action) => {
         loading: false,
         errorMessage: null,
       };
+    case UserActionTypes.EDIT_USER:
+      return {
+        ...state,
+        id: action.payload.id,
+        organisationId: action.payload.organisationId,
+        name: action.payload.name,
+        email: action.payload.email,
+        loading: false,
+        errorMessage: null,
+      };
 
     default:
       throw new Error(`Unhandled action type: ${action.type}`);

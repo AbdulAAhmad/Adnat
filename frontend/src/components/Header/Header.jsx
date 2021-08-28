@@ -7,6 +7,7 @@ import { logout } from "../../context/auth/auth.actions";
 import { clearUser } from "../../context/user/user.actions";
 import { clearOrganisations } from "../../context/organisations/organisations.actions";
 import { useOrganisationsDispatch } from "../../context/organisations/organisations.context";
+import { useHistory, useLocation } from "react-router-dom";
 
 const Header = () => {
   const { sessionId } = useAuthState();
@@ -15,6 +16,8 @@ const Header = () => {
   const organisationsDispatch = useOrganisationsDispatch();
 
   const { name } = useUserState();
+  const history = useHistory();
+  const location = useLocation();
 
   const handleClick = () => {
     logout(authDispatch);
@@ -29,6 +32,16 @@ const Header = () => {
       {sessionId && name && (
         <div>
           {name}
+          <button
+            onClick={() =>
+              history.push({
+                pathname: "/user/edit",
+                state: { from: { pathname: location.pathname } },
+              })
+            }
+          >
+            Edit
+          </button>
           <button onClick={handleClick}>Log Out</button>
         </div>
       )}

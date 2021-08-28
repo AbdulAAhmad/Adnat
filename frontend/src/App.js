@@ -16,6 +16,7 @@ import EditOrganisation from "./pages/EditOrganisation/EditOrganisation";
 import { ShiftsProvider } from "./context/shifts/shifts.context";
 import Shifts from "./pages/Shifts/Shifts";
 import EditShift from "./pages/EditShift/EditShift";
+import EditUser from "./pages/EditUser/EditUser";
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
                 path="/organisations/:id"
                 component={EditOrganisation}
               />
+              <ProtectedRoute path="/user/edit" component={EditUser} />
               <ShiftsProvider>
                 <ProtectedRoute exact path="/shifts" component={Shifts} />
                 <ProtectedRoute path="/shifts/:id" component={EditShift} />
